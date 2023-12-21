@@ -5,6 +5,7 @@ import usersRouter from './api/users';
 import moviesRouter from './api/movies';
 import './db';
 import defaultErrHandler from './errHandler'
+import authenticate from './authenticate';
 
 
 dotenv.config();
@@ -12,11 +13,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT; 
 
+app.use('/api/movies',authenticate,  moviesRouter);
 app.use(cors());
 app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use(defaultErrHandler);
+
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
